@@ -1,0 +1,1 @@
+[environment]::OSVersion.Version | sls -pattern "(?!Build)(?!-----)"
