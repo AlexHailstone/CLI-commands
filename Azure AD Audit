@@ -1,0 +1,2 @@
+##Gather AzureAD User information
+Get-MSOLUser -All | where {$_.isLicensed -eq $true} |select DisplayName,userprincipalname,islicensed,{$_.Licenses.AccountSkuId}| Export-CSV c:\O365UserList.csv –NoTypeInformation
