@@ -2,3 +2,40 @@
 ##One-Liner to see what Windows Updates are pending remotely
 
 Set-ExecutionPolicy Remotesigned ; Install-Module PSWindowsupdate -Confirm ; Get-WindowsUpdate >> C:\temp\Updates.txt ; gci C:\temp\Updates.txt | sls -pattern "^.*KB[0-9]{7}"
+
+
+##Multi-line for full feature
+Set-ExecutionPolicy Unrestricted -Scope Process -Force
+
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force | Out-Null
+Install-Package Nuget -Force | Out-Null
+Install-Module PSWindowsupdate -Force | Out-Null
+
+$obj = @{}
+$theseupdates = Get-WindowsUpdate 
+#>> C:\temp\Updates.txt
+#gci C:\temp\Updates.txt | sls -pattern "^.*KB[0-9]{7}"
+$missingcount = 0
+
+    for ($i = 0; $i -le $theseupdates.Count; $i++){
+        $thisupdate = ($theseupdates[$i].Title | Out-String)
+
+If ($thisupdate -match "^.*KB[0-9]{7}") {
+    $missingcount = $missingcount + 1
+    $Placeholder = "UpdateName$missingCount"
+    $obj.$Placeholder = $thisupdate
+}
+    else{
+    #do nothing These are not microsoft items
+}}
+$obj.Total = $missingcount
+
+
+###### If you want AutoReboots leave this enabled:
+If ($obj.Total -ne 0) {
+Install-WindowsUpdate -AcceptAll -AutoReboot
+}
+
+
+$Final = [string]::Join("|",($obj.GetEnumerator() | %{$_.Name + "=" + $_.Value}))
+Write-Output $Final
