@@ -3,6 +3,8 @@
 
 Set-ExecutionPolicy Remotesigned ; Install-Module PSWindowsupdate -Confirm ; Get-WindowsUpdate >> C:\temp\Updates.txt ; gci C:\temp\Updates.txt | sls -pattern "^.*KB[0-9]{7}"
 
+##Audit Patch History
+Set-ExecutionPolicy Remotesigned ; Install-Module PSWindowsupdate -Confirm ; get-WUhistory -last 100| select-object ComputerName,Date,KB,Result,Title | ft
 
 ##Multi-line for full feature
 Set-ExecutionPolicy Unrestricted -Scope Process -Force
