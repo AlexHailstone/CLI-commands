@@ -1,0 +1,4 @@
+
+## This isn't a neat output, I would strongly reccomend out-file to a file to filter later.
+
+Get-ChildItem -Path "C:\" -recurse | where {$_.Name -notlike '*Windows*' -and $_.LastWriteTime -le (get-date).Adddays(-180)}
