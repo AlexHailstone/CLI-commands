@@ -1,6 +1,6 @@
 $VersionCheck = Get-WmiObject -Class Win32_Product | where name -eq 'google chrome' | select Version
 Write-Host "Current version:" $VersionCheck
-If ($VersionCheck -le 99.0.4844.84){
+If ($VersionCheck -lt 99.0.4844.84){
     
     ## If Winget is working
     $WingetInstalled = Get-AppxPackage | Select-Object -Property name | findstr "Microsoft.Winget.Source"
