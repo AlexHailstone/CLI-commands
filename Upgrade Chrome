@@ -1,0 +1,15 @@
+$VersionCheck = Get-WmiObject -Class Win32_Product | where name -eq 'google chrome' | select Version
+If ($VersionCheck -le 99.0.4844.84){
+    
+    ## If Winget is working
+    $WingetInstalled = Get-AppxPackage | where name -like  Microsoft.Winget.Source
+    If ($WingetInstalled -ne 'OK') {
+        winget upgrade -h chrome
+    } else {
+        Invoke-WebRequest -URi "https://dl.google.com/dl/chrome/install/googlechromestandaloneenterprise64.msi" -OutFile "C:\temp\UpgradeChrome.msi"
+        C:\temp\UpgradeChrome.msi /qn
+        taskkill /IM chrome.exe
+    }
+} Else {
+    Write-host "Chrome is Updated"
+}
