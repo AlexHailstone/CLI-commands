@@ -3,8 +3,8 @@ Write-Host "Current version:" $VersionCheck
 If ($VersionCheck -ge 99.0.4844.84){
     
     ## If Winget is working
-    $WingetInstalled = Get-AppxPackage | findstr "Microsoft.Winget.Source" 
-    If ($WingetInstalled -ne "") {
+    $WingetInstalled = Get-AppxPackage | Select-Object -Property name | findstr "Microsoft.Winget.Source"
+    If ($WingetInstalled -eq "Microsoft.Winget.Source") {
         Write-Host "Winget Is installed, Updating now..."
         winget upgrade -h chrome
         taskkill /F /IM chrome.exe
